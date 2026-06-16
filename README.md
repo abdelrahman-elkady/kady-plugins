@@ -7,6 +7,7 @@ A Claude Code plugin bundling personal skills for planning and engineering workf
 | Skill | Description |
 | :---- | :---------- |
 | [`/kady-skills:draft-plan`](skills/draft-plan/SKILL.md) | Draft a self-contained implementation plan in the project's plans directory as a handover document another agent can ship independently. |
+| [`/kady-skills:orchestrate`](skills/orchestrate/SKILL.md) | Enter orchestration mode — delegate discovery, implementation, and verification to subagents and ultracode workflows, and keep your own context clean for planning and synthesis. |
 
 ## Install
 
