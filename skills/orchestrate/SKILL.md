@@ -32,13 +32,23 @@ Scope what each agent gets and returns to what's needed downstream, not the maxi
 
 ## Model tiering
 
-Weigh two knobs — judgment needed and cost of being wrong — and pick the cheapest model that clears both:
+Weigh two knobs — **judgment needed** and **cost of being wrong** — and pick the cheapest model that clears both. Three tiers, defined by those knobs, independent of harness:
 
-- **Haiku:** mechanical, pattern-following work where mistakes are cheap and easily caught.
-- **Sonnet:** the default workhorse — anything needing real understanding, or mechanical work whose errors aren't trivial. High fan-out with nontrivial error cost → sonnet; verifying and repairing many units costs more than it saves.
-- **Opus:** high-stakes frontier work — hard reasoning, planning, synthesis, verification, challenging ideas (adversarial critique).
+- **Mechanical** — pattern-following work where mistakes are cheap and easily caught.
+- **Workhorse** — the default: anything needing real understanding, or mechanical work whose errors aren't trivial. High fan-out with nontrivial error cost lands here; verifying and repairing many units costs more than dropping a tier saves.
+- **Frontier** — high-stakes work: hard reasoning, planning, synthesis, verification, challenging ideas (adversarial critique).
 
-Don't drop a tier for cost alone if fixing the fallout costs more than you saved.
+Map the tier to your harness's model:
+
+| Tier           | Claude Code | Codex                                             |
+| -------------- | ----------- | ------------------------------------------------- |
+| **Mechanical** | Haiku       | `gpt-5.6-luna` (medium effort)                    |
+| **Workhorse**  | Sonnet      | `gpt-5.6-terra` (medium effort)                   |
+| **Frontier**   | Opus        | `gpt-5.6-sol` (high/xhigh; `max` for the hardest) |
+
+**Don't drop a tier for cost alone if fixing the fallout costs more than you saved**
+
+**On Codex:** reasoning effort is the main dial within a tier — start at `medium` and climb only as the work demands it (`medium → high → xhigh → max → ultra`). Luna is the recommended subagent model for high-volume fan-out. `ultra` spawns its own subagents and burns allowance fast, so it's reserved for very rare, genuinely hard frontier work — **always ask the user for permission before using it.**
 
 ## Operating rules
 
