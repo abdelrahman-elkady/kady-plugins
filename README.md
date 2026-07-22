@@ -25,6 +25,13 @@ npx skills add abdelrahman-elkady/kady-plugins -a claude-code
 npx skills add abdelrahman-elkady/kady-plugins --skill draft-plan -a claude-code
 ```
 
+### As a Claude Code plugin
+
+```
+/plugin marketplace add abdelrahman-elkady/kady-plugins
+/plugin install kady-skills@kady-plugins
+```
+
 ### From a local clone (development)
 
 ```bash

@@ -1,0 +1,12 @@
+{
+  "name": "kady-plugins",
+  "owner": {
+    "name": "Abdelrahman Elkady"
+  },
+  "plugins": [
+    {
+      "name": "kady-skills",
+      "source": "."
+    }
+  ]
+}
