@@ -8,6 +8,7 @@ A Claude Code plugin bundling personal skills for planning and engineering workf
 | :---- | :---------- |
 | [`/kady-skills:concise`](skills/concise/SKILL.md) | Enter concise reporting mode — human-facing text gets short and plain; agent-facing documents keep full detail. |
 | [`/kady-skills:draft-plan`](skills/draft-plan/SKILL.md) | Draft a self-contained implementation plan in the project's plans directory as a handover document another agent can ship independently. |
+| [`/kady-skills:grill-me-simple`](skills/grill-me-simple/SKILL.md) | Interview the user in rounds over a design decision tree, asking only what's ready to be asked, until every branch is decided or explicitly assumed. |
 | [`/kady-skills:orchestrate`](skills/orchestrate/SKILL.md) | Enter orchestration mode — delegate discovery, implementation, and verification to subagents and ultracode workflows, and keep your own context clean for planning and synthesis. |
 
 ## Install
@@ -40,14 +41,4 @@ After editing a skill, run `/reload-plugins` inside Claude Code to pick up chang
 
 ## Layout
 
-```
-kady-plugins/
-├── .claude-plugin/
-│   └── plugin.json          # Plugin manifest (name, description, version)
-├── skills/
-│   └── draft-plan/
-│       └── SKILL.md         # Skill entrypoint with YAML frontmatter
-└── README.md
-```
-
-Skills are auto-discovered from `skills/<skill-name>/SKILL.md`. Add new skills by creating a new folder under `skills/` with its own `SKILL.md` — no manifest update needed.
+Skills are auto-discovered from `skills/<skill-name>/SKILL.md`, each with its own YAML frontmatter (`name`, `description`, and invocation flags). Add a new skill by creating a folder under `skills/` with a `SKILL.md` — no manifest update needed. Plugin-level metadata (name, description, version) lives in [`.claude-plugin/plugin.json`](.claude-plugin/plugin.json).
