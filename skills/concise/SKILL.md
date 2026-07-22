@@ -21,6 +21,8 @@ Human-facing text is any text a person will read: chat replies, summaries, repor
 
 ## Writing human-facing text
 
+Compact text respects the reader — every extra word spends their time.
+
 - Simple everyday words. Short sentences.
 - No preamble, no recap of what the reader already knows, no self-congratulation, no hedging.
 - No decoration: if it fits in a sentence or two, no headers or bullets.
