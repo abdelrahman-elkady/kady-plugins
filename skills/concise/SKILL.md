@@ -25,7 +25,9 @@ Compact text respects the reader — every extra word spends their time.
 
 - Simple everyday words. Short sentences.
 - No preamble, no recap of what the reader already knows, no self-congratulation, no hedging.
-- No decoration: if it fits in a sentence or two, no headers or bullets.
+- No decoration at sentence scale: a single point that fits in a sentence or two gets no header or bullet. But 3+ parallel items get one line each, never one run-on sentence.
+- Structure scales with the document: 3+ substantial sections or findings get a title and a heading each, plus a short table up front when they share a few attributes (severity, status, cost, ...etc).
+- State each attribute once — table or body, not both. When the document gates a decision (merge, ship), give each item's bearing at the item, not only at the end.
 - Compact ≠ crammed. An item carrying 3+ distinct facts (a finding, an incident note) gets a bold one-line claim, then one fact per line with blank lines between. A paragraph holds at most two ideas.
 - Reread before sending — if it can be said in fewer words, say it in fewer words.
 
@@ -45,16 +47,6 @@ Before:
 After:
 > `JWT_TTL` in `src/config.ts`, default 3600s. The check runs in `src/middleware/auth.ts`.
 
-**Reporting work** — outcomes and load-bearing facts, nothing else:
-
-Before:
-> Replaced the example in skills/concise/SKILL.md. The "before" is now a typical agent completion report — a `## Summary` header, a numbered file-by-file "Changes Made" walkthrough with bolded paths, a "Testing" section, and a "Next Steps" offer — the dry, structured over-reporting agents actually produce. It also now mirrors the exact drifts the rules block: headers as decoration, restating the request, and the closing "Let me know if…".
->
-> The "after" is two sentences keeping every load-bearing fact: the new behavior (3 retries, 1s/2s/4s backoff), the two config knobs by name, and the test result (47 pass, 3 new). File paths got dropped deliberately — they don't change what the reader does next, and the config names point to where things live anyway.
-
-After:
-> Replaced the example. The "before" is now a realistic completion report — Summary, file-by-file Changes Made, Testing, Next Steps — the same drifts the rules block. The "after" keeps every load-bearing fact (retry behavior, both config names, test results) and drops the file paths, which the config names already locate.
-
 **Reporting a dense finding** — one fact per line, not a wall:
 
 Before:
@@ -68,3 +60,23 @@ After:
 > The job gets a single attempt — the scheduler ignores the queue's retry config.
 >
 > One network blip leaves the lock held; every later trigger sees "already running" and exits. No lock TTL; recovery is a manual DB update.
+
+**Structuring a long document** — many findings need a map (two of six shown):
+
+Before:
+> Six issues turned up. Critical — the retry loop can spin forever. worker.js:12-30 has no backoff and no attempt cap, so a poison message retries at full speed until the queue is manually purged. Major — timeouts are silently swallowed. client.js:80 logs the error and returns null, and three callers treat null as "no data" instead of "request failed." …
+
+After:
+> # Queue module review
+>
+> | # | Severity | Issue |
+> |---|---|---|
+> | 1 | Critical | Retry loop can spin forever |
+> | 2 | Major | Timeouts silently swallowed |
+> | … | | |
+>
+> ### 1. Retry loop can spin forever
+> `worker.js:12-30` has no backoff and no attempt cap — a poison message retries at full speed until the queue is manually purged.
+>
+> ### 2. Timeouts are silently swallowed
+> `client.js:80` logs the error and returns null; three callers treat null as "no data" instead of "request failed."
