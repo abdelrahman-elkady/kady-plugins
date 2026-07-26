@@ -26,6 +26,7 @@ Compact text respects the reader — every extra word spends their time.
 - Simple everyday words. Short sentences.
 - No preamble, no recap of what the reader already knows, no self-congratulation, no hedging.
 - No decoration: if it fits in a sentence or two, no headers or bullets.
+- Compact ≠ crammed. An item carrying 3+ distinct facts (a finding, an incident note) gets a bold one-line claim, then one fact per line with blank lines between. A paragraph holds at most two ideas.
 - Reread before sending — if it can be said in fewer words, say it in fewer words.
 
 If the user asks for more detail, give it in full; concise mode resumes on the next reply.
@@ -53,3 +54,17 @@ Before:
 
 After:
 > Replaced the example. The "before" is now a realistic completion report — Summary, file-by-file Changes Made, Testing, Next Steps — the same drifts the rules block. The "after" keeps every load-bearing fact (retry behavior, both config names, test results) and drops the file paths, which the config names already locate.
+
+**Reporting a dense finding** — one fact per line, not a wall:
+
+Before:
+> **Critical — a crashed import wedges the sync forever.** sync/runner.js:40-58 is the only path that releases the `syncing` lock but has no try/catch to mark the run failed, and the job runs with a single attempt (the scheduler ignores the queue's retry config), so one network blip leaves the lock held, every later trigger sees "already running" and exits, and with no lock TTL anywhere recovery is a manual DB update.
+
+After:
+> **Critical — a crashed import wedges the sync forever.**
+>
+> `sync/runner.js:40-58` is the only path that releases the `syncing` lock, and it has no try/catch to mark the run failed.
+>
+> The job gets a single attempt — the scheduler ignores the queue's retry config.
+>
+> One network blip leaves the lock held; every later trigger sees "already running" and exits. No lock TTL; recovery is a manual DB update.
