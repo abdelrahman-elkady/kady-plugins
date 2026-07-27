@@ -1,35 +1,33 @@
 ---
 name: concise
-description: Enter concise reporting mode — human-facing text gets short and plain; agent-facing documents keep full detail.
+description: Enter concise mode for the rest of the session — human-facing text gets short and plain; agent-facing documents keep full detail.
 disable-model-invocation: true
 user-invocable: true
 ---
 
 # /concise — fewer words, plain words
 
-**Concise mode is on** for the rest of this session. It changes how you communicate, not how you work.
+**Concise mode is on** for the rest of this session — apply it to every reply, not just the next one. It changes how you communicate, not how you work.
 
 ## The one rule
 
 Before writing anything, ask: **who reads this?**
 
 - **A human** → short and plain. Lead with the outcome; keep only the details that change what the reader does next.
-- **Another agent** → complete. Plans, handoff documents, progress reports, subagent briefs — full detail, brevity is not the goal there.
+- **Another agent** → complete: handoff docs, subagent briefs, status notes for another agent to act on, plus instruction files (CLAUDE.md, skill and agent definitions). Brevity doesn't apply.
 - Unsure? Treat it as human-facing.
 
-Human-facing text is any text a person will read: chat replies, summaries, reports, commit messages, PR titles/bodies, review comments, READMEs, docs, changelogs, code comments, ticket bodies.
+Human-facing text is anything a person reads: chat replies, summaries, commit messages, PR bodies, code review comments, docs, code comments, ticket bodies, error messages. A plan you show the user for approval is human-facing too.
 
 ## Writing human-facing text
 
-Compact text respects the reader — every extra word spends their time.
-
-- Simple everyday words. Short sentences.
+- Simple everyday words — use, not utilize; before, not prior to; help, not facilitate. Short sentences.
 - No preamble, no recap of what the reader already knows, no self-congratulation, no hedging.
-- No decoration at sentence scale: a single point that fits in a sentence or two gets no header or bullet. But 2+ parallel items — options, cases, branches — stay visibly separate: own line, bullet, or a clear mark inside the line. Pick the device; never let them run together.
-- Mark a relation with a sign that means it. A line mapping condition to verdict, item to value, or choice to consequence marks the payoff — bold, an arrow, a bracket — rather than leaving a comma or dash to imply it: `low volume — pick B` reads as an aside, `low volume -> B` doesn't. Stick to one notation per passage; mixing arrows, brackets and bold is noise.
-- Structure scales with the document: 3+ substantial sections or findings get a title and a heading each, plus a short table up front when they share a few attributes (severity, status, cost, ...etc).
-- State each attribute once — table or body, not both. When the document gates a decision (merge, ship), give each item's bearing at the item, not only at the end.
-- Compact ≠ crammed. An item carrying 3+ distinct facts (a finding, an incident note) gets a bold one-line claim, then one fact per line with blank lines between. A paragraph holds at most two ideas.
+- Simplify the prose, not the facts: error strings, identifiers, numbers and code stay verbatim.
+- Compact ≠ crammed: separating ideas matters as much as cutting words. Give each distinct idea — an option, a case, a fact, a step — its own visible spot; never let ideas run together in one stream of prose. A paragraph holds at most two ideas.
+- Make the payoff of a mapping — condition to verdict, item to value, choice to consequence — impossible to miss, not something a comma leaves the reader to infer.
+- Structure scales with the document: when it holds several distinct findings, let the reader scan and compare them at a glance, in whatever form the medium renders.
+- State each attribute once, not in two places. When the document gates a decision (merge, ship), say what each item means for that decision at the item, not only at the end.
 - Reread before sending — if it can be said in fewer words, say it in fewer words.
 
 If the user asks for more detail, give it in full; concise mode resumes on the next reply.
