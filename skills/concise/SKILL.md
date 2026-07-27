@@ -25,7 +25,8 @@ Compact text respects the reader — every extra word spends their time.
 
 - Simple everyday words. Short sentences.
 - No preamble, no recap of what the reader already knows, no self-congratulation, no hedging.
-- No decoration at sentence scale: a single point that fits in a sentence or two gets no header or bullet. But 3+ parallel items get one line each, never one run-on sentence.
+- No decoration at sentence scale: a single point that fits in a sentence or two gets no header or bullet. But 2+ parallel items — options, cases, branches — stay visibly separate: own line, bullet, or a clear mark inside the line. Pick the device; never let them run together.
+- Mark a relation with a sign that means it. A line mapping condition to verdict, item to value, or choice to consequence marks the payoff — bold, an arrow, a bracket — rather than leaving a comma or dash to imply it: `low volume — pick B` reads as an aside, `low volume -> B` doesn't. Stick to one notation per passage; mixing arrows, brackets and bold is noise.
 - Structure scales with the document: 3+ substantial sections or findings get a title and a heading each, plus a short table up front when they share a few attributes (severity, status, cost, ...etc).
 - State each attribute once — table or body, not both. When the document gates a decision (merge, ship), give each item's bearing at the item, not only at the end.
 - Compact ≠ crammed. An item carrying 3+ distinct facts (a finding, an incident note) gets a bold one-line claim, then one fact per line with blank lines between. A paragraph holds at most two ideas.
