@@ -32,16 +32,14 @@ Anything that doesn't apply is omitted, heading and all: no `## Testing` reading
 
 ## The diagram test
 
-Add a mermaid diagram **only if it makes a relationship visible that the prose does not** — several distinct paths converging on one outcome, a race, a state machine, an ordering that has to hold. Then delete the prose it supersedes: a diagram substitutes, it never accumulates.
+Add a mermaid diagram **only if it makes a relationship visible that the prose does not** — several distinct paths converging on one outcome, a race, a state machine, an ordering that has to hold. Then delete the prose it supersedes: a diagram substitutes, it never accumulates. Can't name in one sentence the non-obvious thing it carries? Default to none.
 
 - **Earns it:** *every route out has to exit non-zero* — arrows from the handler, from the flush timeout, and from a signal that races the flush, all landing on one exit node. The reader sees the invariant; prose can only assert it.
 - **Decoration, omit:** a box per bullet · a linear A→B→C a sentence already states · one caller and one callee · a redrawn file list.
 
-Can't name in one sentence the non-obvious thing it carries? Then there's no diagram to draw. Default to none.
-
 ## The reading path
 
-GitHub sorts the diff alphabetically, which is never the order that makes a change comprehensible. Close the body with the order that is — last, below the diagram and the open items, under its own heading with the paths folded beneath. The heading carries the visibility: a bare grey triangle at the end of a long body is exactly what a reviewer scrolls past.
+GitHub sorts the diff alphabetically, which is never the order that makes a change comprehensible. Close the body with the order that is — last, below the diagram and the open items, under its own heading with the paths folded beneath. A bare grey triangle at the end of a long body is exactly what a reviewer scrolls past, so the heading carries the visibility and the fold only holds the detail.
 
 ```markdown
 ## 🧭 How to review
@@ -67,22 +65,22 @@ The duplicate-key early return is the one that doesn't — it commits the row an
 
 Write one only if you can name the file a reviewer should open **second**. When that's "any of them" — one file changed, or six independent leaves — there's no order to teach and no block.
 
-**Two paths, three at the outside**, load-bearing first, then a different angle: the failure route, the other entry points, the change walked back from its consumer. A third earns its slot only by answering something the first two don't.
+**Two paths, three at the outside**, load-bearing first, then a different angle: the failure route, the other entry points, the change walked back from its consumer.
 
-**One idea per paragraph, a blank line between every one.** A path is three or four short blocks, never a sentence with the order buried in it. The `▸` is what holds the path together once the blank lines have pulled it apart: everything from one marker to the next is one path.
+**One idea per paragraph, a blank line between every one.** The `▸` is what holds a path together once the blank lines have pulled it apart: everything from one marker to the next is one path.
 
 - **Label** — `▸`, then a bold name, alone on its line. A trailing `— gloss` earns its place only by saying what shape follows: `— read in order`, `— all three point at config/crash-policy.js`.
-- **Route** — files and symbols in the order they run, `→` between hops. Nothing else on the line: no clause hanging off a hop, no aside in parentheses.
-- **Reason** — one paragraph per thing worth knowing, not one per path. The invariant the walk proves is one paragraph; the guard that makes it hold at the edge is another. Two ideas never share a block.
-- **Fan-in** — when several sites reach the same target for *different* reasons, drop the route line and give each site a bullet: the path, an em dash, its own reason. One reason covering all of them stays a comma-separated route.
+- **Route** — files and symbols in the order they run, `→` between hops, nothing else: no clause hanging off a hop, no aside in parentheses, never line numbers, which rot on the next push. It *skips* files, and that is what makes it a route and not the change list.
+- **Reason** — one paragraph per thing worth knowing, not one per path. The invariant the walk proves is one; the guard that makes it hold at the edge is another.
+- **Fan-in** — sites reaching the same target for *different* reasons get a bullet each: the path, an em dash, its own reason. One reason covering all of them stays a comma list on the route line.
 
-A path *skips* files, and that is what makes it a path and not the change list. Never line numbers; they rot on the next push. A spec earns a hop only at the end of a route, where it pins the invariant faster than the code states it.
+A spec earns a hop only at the end of a route, where it pins the invariant faster than the code states it.
 
 **Nothing load-bearing hides behind a fold.** An operational step, an open item, a question you want answered — those stay visible, or go in an inline comment where a reviewer can reply.
 
-Mechanics: the heading is always `## 🧭 How to review` — at `##`, because GitHub rules an `h2` with a hairline and that rule is half the anchor · blank line after `</summary>`, or GitHub renders the inside raw · `▸` is the literal character, not an entity · every break inside the block is a blank line — never `<br>`, which GitHub doubles into `<br><br>` in a PR body · the summary is plain text naming the angles, since the heading already said what the block is — never "Details", never "click to expand".
+Mechanics: the heading is always `## 🧭 How to review` · blank line after `</summary>`, or GitHub renders the inside raw · `▸` is the literal character, not an entity · every break is a blank line, never `<br>` — GitHub doubles it into `<br><br>` in a PR body · the summary is plain text naming the angles, never "Details", never "click to expand".
 
-**Out of the block:** a clause per changed file · "look carefully at X" with no route · a checklist to tick · a reason smuggled back onto the route line · two ideas sharing a paragraph.
+**Out of the block:** a checklist to tick · "look carefully at X" with no route.
 
 ## The title
 
