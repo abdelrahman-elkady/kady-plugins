@@ -47,13 +47,20 @@ GitHub sorts the diff alphabetically, which is never the order that makes a chan
 ## 🧭 How to review
 
 <details>
-<summary>The flow, then everyone else calling enqueue()</summary>
+<summary>The write path, then everyone else calling enqueue()</summary>
 
-**The flow** — `routes/thing.js` `create()` → `services/thing.js` `enqueue()` → the `things` insert
-Every branch has to leave the row and the job agreeing; the duplicate-key early return is the one that doesn't.
+▸ **The write path** — read in order
 
-**From the other end** — `jobs/backfill.js`, `cli/import.js` → `enqueue()`
-Same contract, and neither retries.
+`routes/thing.js` `create()` → `services/thing.js` `enqueue()` → the `things` insert
+
+Every branch has to leave the row and the job agreeing.
+
+The duplicate-key early return is the one that doesn't — it commits the row and skips the enqueue.
+
+▸ **Who else enqueues** — both bypass the route above
+
+- `jobs/backfill.js` — same contract, no retry; a failed enqueue is silent here.
+- `cli/import.js` — same, and it runs unsupervised.
 
 </details>
 ```
@@ -62,18 +69,20 @@ Write one only if you can name the file a reviewer should open **second**. When 
 
 **Two paths, three at the outside**, load-bearing first, then a different angle: the failure route, the other entry points, the change walked back from its consumer. A third earns its slot only by answering something the first two don't.
 
-**A path is two lines, never one.** The route is scanned, the reason is read — fuse them and the reviewer has to parse a sentence to recover an order.
+**One idea per paragraph, a blank line between every one.** A path is three or four short blocks, never a sentence with the order buried in it. The `▸` is what holds the path together once the blank lines have pulled it apart: everything from one marker to the next is one path.
 
-- **Route** — a bold label, then files and symbols in the order they run, `→` between hops. Nothing else on that line: no clause hangs off a hop. A fan-in is a comma list and is still a route.
-- **Reason** — the next line down, one or two sentences: what the walk buys the reader, and the one thing along it that can be wrong. It may re-name a symbol from the route; it introduces no new file.
+- **Label** — `▸`, then a bold name, alone on its line. A trailing `— gloss` earns its place only by saying what shape follows: `— read in order`, `— all three point at config/crash-policy.js`.
+- **Route** — files and symbols in the order they run, `→` between hops. Nothing else on the line: no clause hanging off a hop, no aside in parentheses.
+- **Reason** — one paragraph per thing worth knowing, not one per path. The invariant the walk proves is one paragraph; the guard that makes it hold at the edge is another. Two ideas never share a block.
+- **Fan-in** — when several sites reach the same target for *different* reasons, drop the route line and give each site a bullet: the path, an em dash, its own reason. One reason covering all of them stays a comma-separated route.
 
 A path *skips* files, and that is what makes it a path and not the change list. Never line numbers; they rot on the next push. A spec earns a hop only at the end of a route, where it pins the invariant faster than the code states it.
 
 **Nothing load-bearing hides behind a fold.** An operational step, an open item, a question you want answered — those stay visible, or go in an inline comment where a reviewer can reply.
 
-Mechanics: the heading is always `## 🧭 How to review` — at `##`, because GitHub rules an `h2` with a hairline and that rule is half the anchor · blank line after `</summary>`, or GitHub renders the inside raw · reason goes on the bare next line, no blank line and **no `<br>`** — GitHub already breaks a single newline in a PR body, and adding the tag renders `<br><br>`, re-opening the paragraph gap that would unpair the reason from its route · blank line *between* paths · the summary is plain text naming the angles, since the heading already said what the block is — never "Details", never "click to expand".
+Mechanics: the heading is always `## 🧭 How to review` — at `##`, because GitHub rules an `h2` with a hairline and that rule is half the anchor · blank line after `</summary>`, or GitHub renders the inside raw · `▸` is the literal character, not an entity · every break inside the block is a blank line — never `<br>`, which GitHub doubles into `<br><br>` in a PR body · the summary is plain text naming the angles, since the heading already said what the block is — never "Details", never "click to expand".
 
-**Out of the block:** a clause per changed file · "look carefully at X" with no route · a checklist to tick · a reason smuggled back onto the route line.
+**Out of the block:** a clause per changed file · "look carefully at X" with no route · a checklist to tick · a reason smuggled back onto the route line · two ideas sharing a paragraph.
 
 ## The title
 
