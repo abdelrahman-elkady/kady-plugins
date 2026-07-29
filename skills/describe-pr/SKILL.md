@@ -39,13 +39,11 @@ Add a mermaid diagram **only if it makes a relationship visible that the prose d
 
 ## The reading path
 
-GitHub sorts the diff alphabetically, which is never the order that makes a change comprehensible. Close the body with the order that is — last, below the diagram and the open items, under its own heading with the paths folded beneath. A bare grey triangle at the end of a long body is exactly what a reviewer scrolls past, so the heading carries the visibility and the fold only holds the detail.
+GitHub sorts the diff alphabetically, which is never the order that makes a change comprehensible. Close the body with the order that is — last, below the diagram and the open items, folded. A bare grey triangle at the end of a long body is exactly what a reviewer scrolls past, so the summary is a heading: it renders at `h2` size, and the thing a reviewer can't miss is the same thing they click.
 
 ```markdown
-## 🧭 How to review
-
 <details>
-<summary>The write path, then everyone else calling enqueue()</summary>
+<summary><h2>🧭 How to review</h2></summary>
 
 ▸ **The write path** — read in order
 
@@ -78,7 +76,7 @@ A spec earns a hop only at the end of a route, where it pins the invariant faste
 
 **Nothing load-bearing hides behind a fold.** An operational step, an open item, a question you want answered — those stay visible, or go in an inline comment where a reviewer can reply.
 
-Mechanics: the heading is always `## 🧭 How to review` · blank line after `</summary>`, or GitHub renders the inside raw · `▸` is the literal character, not an entity · every break is a blank line, never `<br>` — GitHub doubles it into `<br><br>` in a PR body · the summary is plain text naming the angles, never "Details", never "click to expand".
+Mechanics: the summary is always `<summary><h2>🧭 How to review</h2></summary>`, verbatim — HTML because `##` inside `<summary>` renders as literal `##`, and GitHub styles `summary h2` inline-block so it sits beside the triangle rather than below it · blank line after `</summary>`, or GitHub renders the inside raw · `▸` is the literal character, not an entity · every break is a blank line, never `<br>` — GitHub doubles it into `<br><br>` in a PR body.
 
 **Out of the block:** a checklist to tick · "look carefully at X" with no route.
 
