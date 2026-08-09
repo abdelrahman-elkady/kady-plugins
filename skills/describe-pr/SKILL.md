@@ -6,39 +6,51 @@ user-invocable: true
 
 # /describe-pr — say only what the diff can't
 
-Two people read a PR body: a reviewer deciding where to look, and whoever deploys it deciding what to do by hand. Write for those two and nobody else. **The diff already lists the files, the functions and the tests; the tickets already hold the backstory. Your only job is what neither of them shows.** The reviewer's long journey is the diff — the body shortens it and never adds a second one. **Length tracks decisions, not files**: the more mechanical the diff, the *shorter* the body, and prose walking a reader through how the change works is padding however true it is. Shape goes in a diagram; the body is what's left over. The reading path is navigation — it sits outside this, under rules of its own.
+Two people read a PR body: a reviewer deciding where to look, and whoever deploys it deciding what to do by hand. Write for those two and nobody else. **The diff already lists the files, the functions and the tests; the tickets already hold the backstory. Your only job is what neither of them shows.** **Length tracks decisions, not files**: the more mechanical the diff, the *shorter* the body, and prose walking a reader through how the change works is padding however true it is. The reading path is navigation — it sits outside this, under rules of its own.
 
 Read the real diff (`gh pr diff`, or `git diff <base>...HEAD`) and fetch every ticket you cite before writing a word. Never invent a ticket key, never claim tests pass unless you ran them, never describe work that isn't in the diff.
 
 ## Load concise first
 
-Read its `SKILL.md` before drafting — `.claude/skills/concise/`, `~/.claude/skills/concise/`, or `~/.claude/plugins/**/skills/concise/`. Not via the Skill tool: concise sets `disable-model-invocation`, so the call is rejected. **It governs the register and the separation; this file governs what goes in and how tight it gets.** Its *give each distinct idea its own visible spot* binds here in full — a PR body drops concise's headings and its `###` example, never its separation, which lands in bold lead-ins and bullets instead.
+Read its `SKILL.md` before drafting — `.claude/skills/concise/`, `~/.claude/skills/concise/`, or `~/.claude/plugins/**/skills/concise/`. Not via the Skill tool: concise sets `disable-model-invocation`, so the call is rejected. **It governs the register and the separation; this file governs what goes in and how tight it gets.** Its *give each distinct idea its own visible spot* binds here in full — a PR body keeps concise's `##` headings, drops its `###` example, and never drops its separation, which lands in bold lead-ins and bullets.
 
 Not installed: write the PR anyway — a hint, never a gate — and say so once in chat, never in the body: `npx skills add abdelrahman-elkady/kady-plugins --skill concise -a claude-code`.
 
 ## The diagram test
 
-Reach for this **before** writing structural prose, not after. Add a mermaid diagram when it makes a relationship visible that prose can only list — several distinct paths converging on one outcome, a race, a state machine, an ordering that has to hold, a wiring that differs before and after. One picture of the shape beats three paragraphs walking a reader through it, and it is the one place the holistic view belongs. **A diagram is worth a paragraph only if it takes one away**: draw it, then delete the prose it replaces — it never illustrates a paragraph that stays. Can't name in one sentence the non-obvious thing it carries? Default to none, and none is an ordinary outcome, not a gap.
+Add a mermaid diagram when it makes a relationship visible that prose can only list — several distinct paths converging on one outcome, a race, a state machine, an ordering that has to hold, a wiring that differs before and after. One picture of the shape beats three paragraphs walking a reader through it, and it is the one place the holistic view belongs. **Settle it on the diff, before a line of prose exists**: name in one sentence the non-obvious thing a picture would carry. Named, draw it and never write that prose at all — **the diagram buys a paragraph back, it does not cost one**, and *nothing left to replace* is not a verdict, because the rules below already deleted that paragraph. Unnamed, there is no diagram. The failure is a picture standing beside prose that says the same thing.
 
 - **Earns it:** *every route out has to exit non-zero* — arrows from the handler, from the flush timeout, and from a signal that races the flush, all landing on one exit node.
-- **Decoration, omit:** a box per bullet · a linear A→B→C a sentence already states · one caller and one callee · a redrawn file list.
+- **Earns it:** *the retry moved from the caller into the worker* — before-and-after wiring where the boxes are the same and only the arrows moved.
+- **Decoration, omit:** a box per bullet · an unchanged, unbranching A→B→C a sentence already states · a redrawn file list.
 
 ## What earns a block
 
-Default is nothing. **A highlight is something a reviewer would still get wrong after reading the whole diff — not something they would reach slower.** Run it on every fact separately: a fact earns its place on its own, never on the decision it hangs off. *True* and *worth knowing* are neither, and nor is *it explains how this works*.
+Default is nothing. **A highlight is something a reviewer would still get wrong after reading the whole diff — not something they would reach slower.** Run it on every fact separately: a fact earns its place on its own, never on the decision it hangs off. *True* and *worth knowing* are neither.
 
-**A block is a bold lead-in, what changed, and at most one clause of evidence.** Nothing else — not the mechanism, not the alternative you rejected, not what you checked and found clean. Two decisions never share a block however closely they ride together, and a block that wants a second idea is two blocks.
+**A block is a bold lead-in, what changed, and at most one sentence of evidence.** Nothing else — not the mechanism, not the alternative you rejected, not what you checked and found clean. **Evidence is its own short sentence, never a clause chained onto the first**: one needing a semicolon or a second em dash is two. Two decisions never share a block however closely they ride together, and a block that wants a second idea is two blocks.
 
-A list holds the **members of one decision** — the files it deleted, the tickets it spun off — one line each. It never holds a second decision, and a decision that fits on one line doesn't become a bullet to look tidier.
+A list holds items of **one kind** — a single decision's members, or separate changes under one heading — one line each, in the same shape. It never mixes kinds, a lone item stays a sentence, and a sub-bullet carries a value of the line above it.
 
 ```markdown
-Fixes **[ABC-1234](https://tracker.example.com/browse/ABC-1234)** (Bug) — the importer drops rows when a batch half-fails.
+[ABC-1234](https://tracker.example.com/browse/ABC-1234) caps importer retries and sends failed rows to a dead-letter queue.
 
-**Retries are capped at three, then the row goes to the dead-letter queue** — an unparseable row used to retry until someone purged the queue by hand.
+## Changes
 
-**Before merging** — set `IMPORT_MAX_RETRIES` in staging and prod. There is no default.
+- An unparseable row used to retry until someone purged the queue by hand. It stops after three attempts now. One row logged 40k attempts in a day.
+- Failed rows carry the batch id and the parse error.
+- Retry limits are per batch, not per worker:
+  - `IMPORT_MAX_RETRIES` — no default
+  - `IMPORT_DLQ_TOPIC` — defaults to `rows.dead`
 
-**Left undone** — the ticket's third condition is unverified; follow-ups **ABC-1240**, **ABC-1241**.
+## Before merging
+
+Set `IMPORT_MAX_RETRIES` in staging and prod.
+
+## Not covered
+
+- **The ticket's third condition** is unverified — it needs a batch large enough to page.
+- [ABC-1240](https://tracker.example.com/browse/ABC-1240): the reconciler still reads the old retry column.
 ```
 
 **Tickets first, unmistakable.** Key, full link, what each one *is*, the relationship when there is one — *same defect, filed twice* — and any decision a ticket left open with which way you went.
@@ -47,13 +59,13 @@ Fixes **[ABC-1234](https://tracker.example.com/browse/ABC-1234)** (Bug) — the 
 
 **Behavior, not files.** What the system does differently now — the outcome, not the mechanism that produces it. In prose, name a file only when the name is the news: a rename, a new module, a moved boundary.
 
-**What a human must do that merging won't do for them.** Pre- and post-merge steps, new env vars, migrations, feature flags, config and infra changes, breaking changes — retargeting a stacked PR once its base lands is one of these. None of it is inferable from the diff, so **the step is never cut and never has to earn its place**: write the action and who takes it, in the imperative, with no argument for it. Confirming that nothing needs doing is not a step.
+**What a human must do that merging won't do for them.** Pre- and post-merge steps, new env vars, migrations, feature flags, config and infra changes, breaking changes. None of it is inferable from the diff, so **the step is never cut and never has to earn its place**: write the action and who takes it, in the imperative, with no argument for it. Confirming that nothing needs doing is not a step.
 
-**What the PR leaves undone.** A ticket only partly closed says so, in a closing line. Work you didn't do stays named as not done.
+**What the PR leaves undone.** A ticket only partly closed says so. Work you didn't do stays named as not done, one line each.
 
-Anything that doesn't apply is omitted, heading and all: no `## Testing` reading "tests added", no empty screenshots section, no "N/A". Silence means none. **The body has no `###` headings** — a heading is how three items become three sections that each fill themselves. What replaces one is a bold lead-in on the block's first words, or bullets. Never a sentence that announces a count: *Two things to note* is a heading with extra words, and it commits the block to covering everything under it.
+Anything that doesn't apply is omitted, heading and all: no `## Testing` reading "tests added", no empty screenshots section, no "N/A". Silence means none. **A `##` separates kinds of material, not topics inside one** — what shipped, against what is still owed. It never opens a section to fill. **Nothing below `##`** — a `###` is how three items become three sections that each fill themselves; inside one, that job is a bold lead-in's or a bullet's. Never a sentence that announces a count: *Two things to note* is a heading with extra words, and it commits the block to covering everything under it.
 
-**Out entirely:** a file-by-file change list · a test-by-test breakdown or coverage note · line counts · restating the ticket · what a directory holds now · the mechanism behind a change · the alternative you rejected · what you checked and found clean · a value merging sets by itself · a summary of the summary · anything a reviewer reads faster in the diff itself. **Evidence is the exception**: a log line, a query result, a count from the data — whatever lets a reviewer check a claim instead of trusting it stays, in one clause. A fold launders none of the rest — what's cut is cut, collapsed or not.
+**Out entirely:** a file-by-file change list · a test-by-test breakdown or coverage note · line counts · restating the ticket · the mechanism behind a change · the alternative you rejected · what you checked and found clean · a value merging sets by itself · a summary of the summary · anything a reviewer reads faster in the diff itself. **Evidence is the exception**: a log line, a query result, a count from the data — whatever lets a reviewer check a claim instead of trusting it stays, in one sentence. A fold launders none of the rest — what's cut is cut, collapsed or not.
 
 ## The reading path
 
