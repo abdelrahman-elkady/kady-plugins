@@ -32,7 +32,7 @@ Add a mermaid diagram when it makes a relationship visible that prose can only l
 
 Default is nothing. **A highlight is something a reviewer would still get wrong after reading the whole diff — not something they would reach slower.** Run it on every fact separately — never on the decision it hangs off. *True* and *worth knowing* are neither.
 
-**A block is a bold lead-in, what changed, and at most one sentence of evidence.** Nothing else — not the mechanism, not the alternative you rejected, not what you checked and found clean. **Evidence is its own short sentence, never a clause chained onto the first**: one needing a semicolon or a second em dash is two. A block that wants a second idea is two blocks, however closely the two ride together.
+**A block is a bold lead-in, what changed, and at most one sentence of evidence.** Nothing else — not the mechanism, not the alternative you rejected, not what you checked and found clean. **Each comes back on a trailing clause** — a dash or comma onto a sentence that earned its place. **Evidence is its own short sentence, never a clause chained onto the first**: one needing a semicolon or a second em dash is two. A block that wants a second idea is two blocks, however closely the two ride together.
 
 A list holds items of **one kind** — a single decision's members, or separate changes under one heading — one line each, in the same shape. A lone item stays a sentence; a sub-bullet carries a value of the line above it.
 
@@ -100,6 +100,8 @@ The duplicate-key early return is the one that doesn't — it commits the row an
 ```
 
 Write one only if you can name the file a reviewer should open **second**. When that's "any of them" — one file changed, or six independent leaves — there's no order to teach and no block.
+
+**Draft it before the body, then cut the body against it** — a reason the walk proves belongs here, and the same reason loose in the body is the copy to cut.
 
 **Two paths, three at the outside**, load-bearing first, then a different angle: the failure route, the other entry points, the change walked back from its consumer.
 
