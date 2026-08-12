@@ -1,6 +1,6 @@
 ---
 name: describe-pr
-description: Write or rewrite a pull request description and title — concise and high-signal, tickets named up top, operational notes surfaced, a how-to-review block handing the reviewer a reading order, a mermaid diagram only when it shows what prose can't. Use whenever a PR body is being drafted or edited, including `gh pr create` / `gh pr edit`, "open a PR", "write the PR description", "update the PR body". Not for reviewing someone else's PR.
+description: Write or rewrite a pull request description and title — concise, high-signal, tickets up top, operational notes surfaced, a how-to-review reading order, a mermaid diagram only when it shows what prose can't. Use whenever a PR body is being drafted or edited, including `gh pr create` / `gh pr edit`, "open a PR", "write the PR description", "update the PR body". Not for reviewing someone else's PR.
 user-invocable: true
 ---
 
@@ -14,13 +14,13 @@ Read the real diff (`gh pr diff`, or `git diff <base>...HEAD`) and fetch every t
 
 ## Load concise first
 
-Read its `SKILL.md` before drafting — `.claude/skills/concise/`, `~/.claude/skills/concise/`, or `~/.claude/plugins/**/skills/concise/`. Not via the Skill tool: concise sets `disable-model-invocation`, so the call is rejected. **It governs the register and the separation; this file governs what goes in and how tight it gets.** Its *give each distinct idea its own visible spot* binds here in full: a PR body keeps concise's `##` headings and drops its `###` example, but the separation lands unchanged, in bold lead-ins and bullets.
+Read its `SKILL.md` before drafting — `.claude/skills/concise/`, `~/.claude/skills/concise/`, or `~/.claude/plugins/**/skills/concise/`. Not via the Skill tool: concise sets `disable-model-invocation`, so the call is rejected. **It governs the register and the separation; this file governs what goes in and how tight it gets.** Its *give each distinct idea its own visible spot* binds here in full: the separation lands in bold lead-ins and bullets under `##` headings, not concise's `###` device.
 
 Not installed: write the PR anyway — a hint, never a gate — and say so once in chat, never in the body: `npx skills add abdelrahman-elkady/kady-plugins --skill concise -a claude-code`.
 
 ## The diagram test
 
-Add a mermaid diagram when it makes a relationship visible that prose can only list — several distinct paths converging on one outcome, a race, a state machine, an ordering that has to hold, a wiring that differs before and after. One picture of the shape beats three paragraphs walking a reader through it, and it is the one place the holistic view belongs.
+Add a mermaid diagram when it makes a relationship visible that prose can only list — several distinct paths converging on one outcome, a race, a state machine, an ordering that has to hold, a wiring that differs before and after. One picture of the shape beats three paragraphs, and it is the one place the holistic view belongs.
 
 **Settle it on the diff, before a line of prose exists**: name in one sentence the non-obvious thing a picture would carry. Named, draw it and never write that prose at all — **the diagram buys a paragraph back, it does not cost one**. Unnamed, there is no diagram. What follows the picture states what it proves and moves on; prose that re-walks the arrows is the paragraph the diagram already bought.
 
@@ -30,7 +30,7 @@ Add a mermaid diagram when it makes a relationship visible that prose can only l
 
 ## The reading path — drafted first, rendered last
 
-GitHub sorts the diff alphabetically, never the order that makes the change comprehensible. Close the body with the order that is, folded — but only if you can name the file a reviewer should open **second**; when that's "any of them", there's no order to teach and no block. **The path is where reasons live**, each written here once: the same reason loose in the body is the copy to cut, and a body cut that orphans a promise the path makes moves the reason into the path, not out of the PR.
+GitHub sorts the diff alphabetically, never the order that makes the change comprehensible. Close the body with the order that is, folded — but only if you can name the file a reviewer should open **second**; when that's "any of them", there's no order to teach and no block. **The path is where reasons live**, each written here once; a body cut that orphans a promise the path makes moves the reason into the path, not out of the PR.
 
 ```markdown
 <details>
