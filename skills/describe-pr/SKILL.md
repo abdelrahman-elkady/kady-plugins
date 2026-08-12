@@ -8,7 +8,7 @@ user-invocable: true
 
 Two people read a PR body: a reviewer deciding where to look, and whoever deploys it deciding what to do by hand. Write for those two and nobody else — and write it backwards: settle the diagram on the diff, draft the reading path, write the body into what's left, title last.
 
-**Every fact has one home, and the body is the home of last resort.** The diff holds the files, the mechanism, the tests; the ticket holds the backstory and the proof the problem was real; the reading path holds the reasons a reviewer needs mid-review. The body keeps only what nothing else carries: the one-line why, the steps a human must take, what's left undone, a decision no artifact records. Two things have no home anywhere and stay out — **the alternative you rejected**, and **what you checked and found clean**. A fact outside its home is a copy, and the copy is the cut; a fold launders nothing. Length tracks decisions, not files.
+**Every fact has one home, and the body is the home of last resort.** The diff holds the files, the mechanism, the tests; the ticket holds the backstory and the proof the problem was real; the reading path holds the reasons a reviewer needs mid-review. The body keeps only what nothing else carries: the one-line why, the steps a human must take, what's left undone and still matters, a decision no artifact records. Two things have no home anywhere and stay out — **the alternative you rejected**, and **what you checked and found clean**. A fact outside its home is a copy, and the copy is the cut; a fold launders nothing. Length tracks decisions, not files.
 
 Read the real diff (`gh pr diff`, or `git diff <base>...HEAD`) and fetch every ticket you cite before writing a word. Never invent a ticket key, never claim tests pass unless you ran them, never describe work that isn't in the diff.
 
@@ -82,6 +82,8 @@ Set `IMPORT_MAX_RETRIES` in staging and prod.
 ```
 
 **`## Before merging` never has to earn its place** — steps, env vars, migrations, feature flags, config and infra changes, breaking changes, none of them inferable from the diff. The action and who takes it, imperative, with no argument for it. Confirming that nothing needs doing is not a step.
+
+**`## Not covered` earns every line.** Only a gap that changes what someone does next — a ticket that can't close, a follow-up to file, a case a reviewer would assume was handled. Skipped spec detail is not a gap when the intent is met and nothing is at risk; leave it out.
 
 Two tells that a cut is leaking back in:
 
